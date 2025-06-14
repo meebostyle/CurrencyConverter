@@ -78,12 +78,12 @@ fun TransactionDbo.toCurrencyTransactionModel(): CurrencyTransactionModel{
         buyName = to,
         buyFullName = buyCurrency.fullName,
         buySymbol = buyCurrency.symbol,
-        buyValue = formatDouble(fromAmount),
+        buyValue = formatDouble(toAmount),
         sellFlag = sellCurrency.flag,
         sellName = from,
         sellFullName = sellCurrency.fullName,
         sellSymbol = sellCurrency.symbol,
-        sellValue = formatDouble(toAmount),
+        sellValue = formatDouble(fromAmount),
         time = dateTime
     )
 }

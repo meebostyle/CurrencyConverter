@@ -54,23 +54,7 @@ class ChangeCurrencyFragment: BaseFragment<FragmentChangeCurrencyBinding>() {
                 viewModel.saveTransaction(buyItem, sellItem)
             }
 
-            viewLifecycleOwner.lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.isContentVisible.collect {
-                        recyclerHolder.isVisible = it
-                        tvActualCourse.isVisible = it
-                        tvNameTransaction.isVisible = it
-                        btnTransaction.isVisible = it
-                    }
-                }
-            }
-            viewLifecycleOwner.lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.isProgressBarVisible.collect {
-                        pb.isVisible = it
-                    }
-                }
-            }
+
             viewLifecycleOwner.lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.readyToBack.collect {

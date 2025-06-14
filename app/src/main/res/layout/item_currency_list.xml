@@ -89,6 +89,7 @@
             android:text="1422"
             android:textColor="@color/black"
             android:inputType="numberDecimal"
+            android:imeOptions="actionDone"
             />
         <TextView
             android:id="@+id/tv_remove"

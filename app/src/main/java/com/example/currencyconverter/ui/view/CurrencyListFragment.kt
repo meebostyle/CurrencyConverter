@@ -14,12 +14,15 @@ import com.example.currencyconverter.databinding.FragmentCurrencyListBinding
 import com.example.currencyconverter.ui.adapters.CurrencyListAdapter
 import com.example.currencyconverter.ui.base.BaseFragment
 import com.example.currencyconverter.ui.viewmodel.CurrencyListViewModel
-import com.example.currencyconverter.utils.getDefaultNavOptions
 import kotlinx.coroutines.launch
 
 class CurrencyListFragment: BaseFragment<FragmentCurrencyListBinding>() {
 
 
+
+
+    private val viewModel: CurrencyListViewModel by viewModels<CurrencyListViewModel>()
+    private val navController by lazy { findNavController() }
 
     override fun createBinding(
         inflater: LayoutInflater,
@@ -28,12 +31,22 @@ class CurrencyListFragment: BaseFragment<FragmentCurrencyListBinding>() {
         return FragmentCurrencyListBinding.inflate(inflater, container, false)
     }
 
-    private val viewModel: CurrencyListViewModel by viewModels<CurrencyListViewModel>()
+    override fun onStart() {
+        super.onStart()
+        viewModel.reset()
+        viewModel.newInit()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.reset()
+        viewModel.newInit()
+    }
 
     override fun configureView() {
-        val navController = findNavController()
         super.configureView()
+
+
         val adapter = CurrencyListAdapter(
             onItemClick = {name, value ->
                 viewModel.setDataListMode(name, value)
@@ -47,10 +60,9 @@ class CurrencyListFragment: BaseFragment<FragmentCurrencyListBinding>() {
                     putParcelable("item1", viewModel.content.value!![0])
                     putParcelable("item2", viewModel.content.value!![position])
                 }
-                navController.navigate(R.id.currency_change_fragment, bundle,
-                    getDefaultNavOptions()
-                )
-            }
+                navController.navigate(R.id.currency_change_fragment, bundle)
+            },
+            viewModel.amount
         )
 
 
@@ -63,6 +75,7 @@ class CurrencyListFragment: BaseFragment<FragmentCurrencyListBinding>() {
             btnTransaction.setOnClickListener {
                 navController.navigate(R.id.transaction_list_fragment)
             }
+
 
 
             viewLifecycleOwner.lifecycleScope.launch{

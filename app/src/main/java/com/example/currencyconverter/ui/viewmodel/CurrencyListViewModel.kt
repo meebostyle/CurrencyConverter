@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 class CurrencyListViewModel: ViewModel() {
 
 
-    private var _isProgressBarVisible = MutableStateFlow<Boolean>(false)
+    private var _isProgressBarVisible = MutableStateFlow<Boolean>(true)
     val isProgressBarVisible = _isProgressBarVisible.asStateFlow()
 
 
@@ -30,10 +30,13 @@ class CurrencyListViewModel: ViewModel() {
 
     private lateinit var activeJob: Job
 
+
     private var mode = (Mode.LIST)
 
     private var baseCurrencyCode = "USD"
-    private var amount = 1.0
+
+    private var _amount = 1.0
+    val amount = _amount
 
     init {
         _isProgressBarVisible.value = true
@@ -44,13 +47,34 @@ class CurrencyListViewModel: ViewModel() {
         updateContentListMode()
     }
 
+    fun newInit(){
+        _isProgressBarVisible.value = true
+        _isContentVisible.value = false
+        viewModelScope.launch(Dispatchers.IO) {
+            loadContentListMode()
+        }
+        updateContentListMode()
+    }
+
+    fun reset() {
+        _isProgressBarVisible.value = true
+        _isContentVisible.value = false
+        _content.value = null
+        _needToScroll = true
+        baseCurrencyCode = "USD"
+        _amount = 1.0
+        mode = Mode.LIST
+        activeJob.cancel()
+    }
 
     fun setDataListMode(baseCurrencyCode: String, amount: Double){
         mode = Mode.LIST
         activeJob.cancel()
-        this.amount = amount
+        _amount = amount
         this.baseCurrencyCode = baseCurrencyCode
         _needToScroll = true
+        _isProgressBarVisible.value = true
+        _isContentVisible.value = false
         viewModelScope.launch(Dispatchers.IO) {
             loadContentListMode()
         }
@@ -60,15 +84,18 @@ class CurrencyListViewModel: ViewModel() {
     fun setDataChangeMode(baseCurrencyCode: String, amount: Double){
         mode = Mode.CHANGE
         activeJob.cancel()
-        this.amount = amount
+        _amount = amount
         this.baseCurrencyCode = baseCurrencyCode
         _needToScroll = true
+        _isProgressBarVisible.value = true
+        _isContentVisible.value = false
         viewModelScope.launch(Dispatchers.IO) {
             loadContentChangeMode()
         }
     }
 
     fun onListUpdated(){
+
         _needToScroll = false
         when (mode){
             Mode.LIST -> updateContentListMode()
@@ -101,10 +128,10 @@ class CurrencyListViewModel: ViewModel() {
 
     private suspend fun loadContentChangeMode(){
         val repository = CurrencyRepository()
-        _isContentVisible.value = true
             try {
-                _content.value = repository.getCurrencyChangeMode(baseCurrencyCode, amount)
-                Log.i("changeMode", "${_content.value}")
+                _content.value = repository.getCurrencyChangeMode(baseCurrencyCode, _amount)
+                _isProgressBarVisible.value = false
+                _isContentVisible.value = true
             } catch (e: Exception){
                 Log.e("Response Error", "$e")
             }
@@ -115,12 +142,12 @@ class CurrencyListViewModel: ViewModel() {
     private suspend fun loadContentListMode(){
         val repository = CurrencyRepository()
             try {
-                _content.value = repository.getCurrencyListMode(baseCurrencyCode, amount)
+                _content.value = repository.getCurrencyListMode(baseCurrencyCode, _amount)
+                _isProgressBarVisible.value = false
+                _isContentVisible.value = true
             } catch (e: Exception){
                 Log.e("Response Error", "$e")
             }
-            _isProgressBarVisible.value = false
-            _isContentVisible.value = true
     }
 
 
