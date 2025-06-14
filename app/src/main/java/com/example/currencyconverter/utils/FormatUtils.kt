@@ -1,6 +1,5 @@
 package com.example.currencyconverter.utils
 
-import android.annotation.SuppressLint
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -58,7 +57,3 @@ fun formatDateTime(dateTime: LocalDateTime): String {
     return dateTime.format(formatter)
 }
 
-@SuppressLint("DefaultLocale")
-fun Double.toDecimalNotationString() =
-    String.format("%.99f", this)
-        .trimEnd('0').replace(".","")

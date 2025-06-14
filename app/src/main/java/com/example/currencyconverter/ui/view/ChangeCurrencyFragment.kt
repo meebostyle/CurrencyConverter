@@ -3,7 +3,6 @@ package com.example.currencyconverter.ui.view
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,7 +15,6 @@ import com.example.currencyconverter.ui.adapters.ChangeListAdapter
 import com.example.currencyconverter.ui.base.BaseFragment
 import com.example.currencyconverter.ui.viewmodel.ChangeCurrencyViewModel
 import com.example.currencyconverter.utils.formatDouble
-import com.example.currencyconverter.utils.getNavOptionsWithoutBactrack
 import com.example.currencyconverter.utils.toFormatDouble
 import kotlinx.coroutines.launch
 
@@ -59,9 +57,8 @@ class ChangeCurrencyFragment: BaseFragment<FragmentChangeCurrencyBinding>() {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.readyToBack.collect {
                         if (it)
-                            navController.navigate(R.id.currency_list_fragment, null,
-                                getNavOptionsWithoutBactrack(R.id.currency_change_fragment)
-                            )
+                            navController.navigate(R.id.currency_list_fragment)
+
                     }
                 }
             }

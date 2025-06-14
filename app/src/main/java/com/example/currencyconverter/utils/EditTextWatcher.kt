@@ -25,7 +25,6 @@ class EditTextWatcher : TextWatcher {
                     editable.replace(0, editable.length, "0.")
                 }
                 input == "0" -> {
-                    // Не изменяем, разрешаем вводить числа после 0
                 }
                 input == "." -> {
                     editable.replace(0, editable.length, "0.")
@@ -34,14 +33,12 @@ class EditTextWatcher : TextWatcher {
                     editable.replace(0, editable.length, "0$input")
                 }
                 input.count { it == '.' } > 1 -> {
-                    // Оставляем только первую точку
                     val firstDotIndex = input.indexOf('.')
                     val filtered = input.substring(0, firstDotIndex + 1) +
                             input.substring(firstDotIndex + 1).replace(".", "")
                     editable.replace(0, editable.length, filtered)
                 }
                 input.contains(".") -> {
-                    // Проверяем количество знаков после запятой
                     val parts = input.split(".")
                     if (parts.size > 1 && parts[1].length > 2) {
                         val limited = "${parts[0]}.${parts[1].substring(0, 2)}"
@@ -49,7 +46,7 @@ class EditTextWatcher : TextWatcher {
                     }
                 }
                 input.startsWith("0") && input.length > 1 -> {
-                    // Разрешаем числа, начинающиеся с 0, только если это 0. или 0.x
+
                     if (!input.contains(".")) {
                         editable.replace(0, editable.length, input.trimStart('0').ifEmpty { "0" })
                     }
