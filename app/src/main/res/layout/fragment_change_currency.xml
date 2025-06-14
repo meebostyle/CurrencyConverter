@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+   <TextView
+       android:id="@+id/tv_name_transaction"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       app:layout_constraintTop_toTopOf="parent"
+       android:text="Russia Rouble to Euro"
+       android:textSize="24sp"
+       android:textColor="@color/black"
+       android:layout_marginHorizontal="@dimen/padding_12dp"
+       android:layout_marginTop="@dimen/padding_12dp"
+       />
+
+    <TextView
+        android:id="@+id/tv_actual_course"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_name_transaction"
+        android:text="1$ = 12,09$"
+        android:layout_marginHorizontal="@dimen/padding_12dp"
+        android:layout_marginTop="@dimen/padding_4dp"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_holder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_actual_course"
+        app:layout_constraintBottom_toTopOf="@id/btn_transaction"
+        />
+
+    <Button
+        android:id="@+id/btn_transaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Buy Euro for Russia Ruble"
+        android:textAllCaps="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@id/recycler_holder"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

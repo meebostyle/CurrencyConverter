@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -40,18 +39,22 @@ class CurrencyListFragment: Fragment() {
 
         val adapter = CurrencyListAdapter(
             onItemClick = {name, value ->
-                viewModel.getContent(name, value)
+                viewModel.setDataListMode(name, value)
+            },
+            onChangeMode = {
+                name, value ->
+                viewModel.setDataChangeMode(name, value)
             }
         )
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            if (viewModel.content.value == null) viewModel.getContent()
-        }
-
-
 
         with(binding) {
+
+
             recyclerHolder.adapter = adapter
+
+
+
             viewLifecycleOwner.lifecycleScope.launch{
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.isContentVisible.collect {
@@ -70,14 +73,15 @@ class CurrencyListFragment: Fragment() {
             viewLifecycleOwner.lifecycleScope.launch{
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.content.collect {
-                            adapter.submitList(it) {
-                                viewModel.onListUpdated()
-                                recyclerHolder.smoothScrollToPosition(0)
-                        }
+                            adapter.submitList(it){
+                                if (viewModel.needToScroll){
+                                    recyclerHolder.scrollToPosition(0)
+                                    viewModel.onListUpdated()
+                                }
+                            }
                     }
                 }
             }
-
 
 
         }
