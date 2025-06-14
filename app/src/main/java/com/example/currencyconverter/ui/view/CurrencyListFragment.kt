@@ -1,49 +1,55 @@
 package com.example.currencyconverter.ui.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import com.example.currencyconverter.R
 import com.example.currencyconverter.databinding.FragmentCurrencyListBinding
 import com.example.currencyconverter.ui.adapters.CurrencyListAdapter
+import com.example.currencyconverter.ui.base.BaseFragment
 import com.example.currencyconverter.ui.viewmodel.CurrencyListViewModel
+import com.example.currencyconverter.utils.getDefaultNavOptions
 import kotlinx.coroutines.launch
 
-class CurrencyListFragment: Fragment() {
+class CurrencyListFragment: BaseFragment<FragmentCurrencyListBinding>() {
 
-    private var _binding: FragmentCurrencyListBinding? = null
-    private val binding get() = _binding!!
+
+
+    override fun createBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentCurrencyListBinding {
+        return FragmentCurrencyListBinding.inflate(inflater, container, false)
+    }
+
     private val viewModel: CurrencyListViewModel by viewModels<CurrencyListViewModel>()
 
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentCurrencyListBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun configureView() {
+        val navController = findNavController()
+        super.configureView()
         val adapter = CurrencyListAdapter(
             onItemClick = {name, value ->
                 viewModel.setDataListMode(name, value)
             },
             onChangeMode = {
-                name, value ->
+                    name, value ->
                 viewModel.setDataChangeMode(name, value)
+            },
+            transaction = { position ->
+                val bundle = Bundle().apply {
+                    putParcelable("item1", viewModel.content.value!![0])
+                    putParcelable("item2", viewModel.content.value!![position])
+                }
+                navController.navigate(R.id.currency_change_fragment, bundle,
+                    getDefaultNavOptions()
+                )
             }
         )
 
@@ -54,11 +60,16 @@ class CurrencyListFragment: Fragment() {
             recyclerHolder.adapter = adapter
 
 
+            btnTransaction.setOnClickListener {
+                navController.navigate(R.id.transaction_list_fragment)
+            }
+
 
             viewLifecycleOwner.lifecycleScope.launch{
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.isContentVisible.collect {
                         recyclerHolder.isVisible = it
+                        btnTransaction.isVisible = it
                     }
                 }
             }
@@ -73,12 +84,12 @@ class CurrencyListFragment: Fragment() {
             viewLifecycleOwner.lifecycleScope.launch{
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.content.collect {
-                            adapter.submitList(it){
-                                if (viewModel.needToScroll){
-                                    recyclerHolder.scrollToPosition(0)
-                                    viewModel.onListUpdated()
-                                }
+                        adapter.submitList(it){
+                            if (viewModel.needToScroll){
+                                recyclerHolder.scrollToPosition(0)
+                                viewModel.onListUpdated()
                             }
+                        }
                     }
                 }
             }
@@ -87,11 +98,8 @@ class CurrencyListFragment: Fragment() {
         }
 
 
-    }
 
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
+
 }

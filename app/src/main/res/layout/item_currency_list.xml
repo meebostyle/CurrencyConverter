@@ -55,26 +55,17 @@
 
 
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/text_container"
         android:layout_width="140dp"
         android:layout_height="50dp"
-        app:layout_constraintEnd_toStartOf="@id/tv_remove"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="@dimen/padding_4dp"
-
+        android:orientation="horizontal"
         >
-        <EditText
-            android:id="@+id/et_value"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:text="1422"
-            android:textColor="@color/black"
-            android:inputType="numberDecimal"
-            tools:visibility="visible"
-            />
+
         <TextView
             android:id="@+id/tv_value"
             android:layout_width="match_parent"
@@ -83,29 +74,38 @@
             android:gravity="center_vertical|end"
             android:textColor="@color/black"
             android:autoSizeTextType="uniform"
-            android:autoSizeMaxTextSize="24sp"
-            android:autoSizeMinTextSize="12sp"
+            android:autoSizeMaxTextSize="@dimen/text_24sp"
+            android:autoSizeMinTextSize="@dimen/text_12sp"
             android:autoSizeStepGranularity="2sp"
             android:maxLines="1"
-            tools:visibility="gone"
+            android:layout_weight="1"
             />
-    </FrameLayout>
+        <EditText
+            android:id="@+id/et_value"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:textSize="@dimen/text_20sp"
+            android:text="1422"
+            android:textColor="@color/black"
+            android:inputType="numberDecimal"
+            />
+        <TextView
+            android:id="@+id/tv_remove"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="x"
+            android:gravity="center"
+
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_20sp"
+            />
+    </LinearLayout>
 
 
 
 
-    <TextView
-        android:id="@+id/tv_remove"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:text="x"
-        android:visibility="gone"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        />
+
 
 
 

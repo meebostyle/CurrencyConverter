@@ -10,4 +10,15 @@
         android:name="com.example.currencyconverter.ui.view.CurrencyListFragment"
         tools:layout="@layout/fragment_currency_list"
         />
+
+    <fragment
+        android:id="@+id/currency_change_fragment"
+        android:name="com.example.currencyconverter.ui.view.ChangeCurrencyFragment"
+        tools:layout="@layout/fragment_change_currency"
+        />
+    <fragment
+        android:id="@+id/transaction_list_fragment"
+        android:name="com.example.currencyconverter.ui.view.TransactionListFragment"
+        />
+
 </navigation>

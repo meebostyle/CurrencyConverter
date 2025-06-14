@@ -32,7 +32,6 @@ class CurrencyListViewModel: ViewModel() {
 
     private var mode = (Mode.LIST)
 
-
     private var baseCurrencyCode = "USD"
     private var amount = 1.0
 
@@ -66,6 +65,14 @@ class CurrencyListViewModel: ViewModel() {
         _needToScroll = true
         viewModelScope.launch(Dispatchers.IO) {
             loadContentChangeMode()
+        }
+    }
+
+    fun onListUpdated(){
+        _needToScroll = false
+        when (mode){
+            Mode.LIST -> updateContentListMode()
+            Mode.CHANGE -> updateContentChangeMode()
         }
     }
 
@@ -114,16 +121,6 @@ class CurrencyListViewModel: ViewModel() {
             }
             _isProgressBarVisible.value = false
             _isContentVisible.value = true
-
-    }
-
-     fun onListUpdated(){
-         _needToScroll = false
-         when (mode){
-             Mode.LIST -> updateContentListMode()
-             Mode.CHANGE -> updateContentChangeMode()
-         }
-
     }
 
 

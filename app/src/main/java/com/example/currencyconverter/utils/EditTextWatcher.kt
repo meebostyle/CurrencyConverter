@@ -1,35 +1,50 @@
-package com.example.currencyconverter.utils;
+package com.example.currencyconverter.utils
 
-import android.text.Editable;
-import android.text.Selection;
-import android.text.TextWatcher;
+import android.text.Editable
+import android.text.TextWatcher
 
-public class EditTextWatcher implements TextWatcher {
-    private int lastProtectedPosition = 0;
+class EditTextWatcher : TextWatcher {
+    private var isFormatting = false
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        // Находим позицию первого пробела
-        int spaceIndex = s.toString().indexOf(' ');
-        lastProtectedPosition = spaceIndex >= 0 ? spaceIndex + 1 : 0;
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
     }
 
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        // Не требуется
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
     }
 
-    @Override
-    public void afterTextChanged(Editable s) {
-        int spaceIndex = s.toString().indexOf(' ');
-        int currentProtectedPos = spaceIndex >= 0 ? spaceIndex + 1 : 0;
+    override fun afterTextChanged(editable: Editable?) {
+        if (isFormatting) return
 
-        // Если защищенная область изменилась (пробел удален)
-        if (currentProtectedPos < lastProtectedPosition) {
-            // Отменяем изменения - возвращаем курсор в конец защищенной зоны
-            Selection.setSelection(s, lastProtectedPosition);
+        isFormatting = true
+
+        try {
+            val input = editable.toString()
+
+            when {
+                input.isEmpty() -> editable?.replace(0, editable.length, "0.")
+                input == "0" -> editable?.replace(0, editable.length, "1")
+                input == "0." -> editable?.replace(0, editable.length, "0.")
+                input == "." -> editable?.replace(0, editable.length, "0.")
+                input.startsWith(".") -> editable?.replace(0, editable.length, "0$input")
+                input.startsWith("0") && !input.contains(".") -> {
+                    val number = input.trimStart('0')
+                    editable?.replace(0, editable.length, if (number.isEmpty()) "1" else number)
+                }
+                input.startsWith("0") && input.contains(".") -> {
+                    val parts = input.split(".")
+                    val integerPart = parts[0].trimStart('0')
+                    val result = if (integerPart.isEmpty()) "0.${parts[1]}" else "$integerPart.${parts[1]}"
+                    editable?.replace(0, editable.length, result)
+                }
+                input.count { it == '.' } > 1 -> {
+                    val firstDotIndex = input.indexOf('.')
+                    val filtered = input.substring(0, firstDotIndex + 1) +
+                            input.substring(firstDotIndex + 1).replace(".", "")
+                    editable?.replace(0, editable.length, filtered)
+                }
+            }
+        } finally {
+            isFormatting = false
         }
-
-        lastProtectedPosition = currentProtectedPos;
     }
 }

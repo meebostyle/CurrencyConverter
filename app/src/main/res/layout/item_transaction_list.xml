@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:background="@drawable/bg_item_currency_list"
+    android:layout_marginVertical="@dimen/padding_4dp"
+    android:paddingVertical="@dimen/padding_12dp"
+    android:paddingHorizontal="@dimen/padding_12dp"
+    android:elevation="@dimen/padding_16dp">
+
+    <TextView
+        android:id="@+id/tv_sell_trans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="Sold:"
+        android:textSize="@dimen/text_16sp"
+        android:textColor="@color/black"
+        />
+
+    <ImageView
+        android:id="@+id/iv_sell_flag"
+        android:layout_width="72dp"
+        android:layout_height="48dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_sell_trans"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/ic_usa_flag"
+        android:scaleType="fitXY"
+        android:layout_marginTop="@dimen/padding_12dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_sell_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="USD"
+        android:textSize="24sp"
+        android:layout_marginStart="@dimen/padding_4dp"
+        app:layout_constraintTop_toTopOf="@id/iv_sell_flag"
+        app:layout_constraintStart_toEndOf="@id/iv_sell_flag"
+        app:layout_constraintBottom_toTopOf="@id/tv_sell_full_name"
+        />
+    <TextView
+        android:id="@+id/tv_sell_full_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/tv_sell_name"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_sell_name"
+        app:layout_constraintBottom_toBottomOf="@id/iv_sell_flag"
+        android:text="US dollar"
+        />
+    <TextView
+        android:id="@+id/tv_sell_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Value: $145"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/iv_sell_flag"
+        android:layout_marginTop="@dimen/padding_8dp"
+
+
+        />
+
+
+
+    <TextView
+        android:id="@+id/tv_buy_trans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Purchased:"
+        android:textSize="@dimen/text_16sp"
+        android:textColor="@color/black"
+
+        />
+
+    <ImageView
+        android:id="@+id/iv_buy_flag"
+        android:layout_width="72dp"
+        android:layout_height="48dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_buy_trans"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_usa_flag"
+        android:scaleType="fitXY"
+        android:layout_marginTop="@dimen/padding_12dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_buy_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="USD"
+        android:textSize="24sp"
+        android:layout_marginEnd="@dimen/padding_4dp"
+        app:layout_constraintTop_toTopOf="@id/iv_buy_flag"
+        app:layout_constraintEnd_toStartOf="@id/iv_buy_flag"
+        app:layout_constraintBottom_toTopOf="@id/tv_buy_full_name"
+        />
+    <TextView
+        android:id="@+id/tv_buy_full_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/iv_buy_flag"
+        app:layout_constraintTop_toBottomOf="@id/tv_buy_name"
+        app:layout_constraintBottom_toBottomOf="@id/iv_buy_flag"
+        android:layout_marginEnd="@dimen/padding_4dp"
+        android:textSize="12sp"
+        android:text="US dollar"
+        />
+    <TextView
+        android:id="@+id/tv_buy_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Value: $145"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_buy_flag"
+        android:layout_marginTop="@dimen/padding_8dp"
+
+        />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_buy_value"
+        android:gravity="center"
+        android:text="23213213213123213"
+        />
+
+
+
+
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

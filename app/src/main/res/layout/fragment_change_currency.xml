@@ -31,6 +31,11 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_actual_course"
         app:layout_constraintBottom_toTopOf="@id/btn_transaction"
+        android:overScrollMode="never"
+        android:orientation="vertical"
+        android:clipToPadding="false"
+        android:paddingVertical="@dimen/padding_4dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         />
 
     <Button
@@ -41,8 +46,16 @@
         android:textAllCaps="false"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-
         app:layout_constraintTop_toBottomOf="@id/recycler_holder"
+        />
+    <ProgressBar
+        android:id="@+id/pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 
 
